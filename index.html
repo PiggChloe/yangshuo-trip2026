@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>阳朔行程攻略 · 清明 2026</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif; background: #f0f0eb; color: #1a1a18; font-size: 15px; line-height: 1.6; }
+
+  /* hero */
+  .hero {
+    background: linear-gradient(160deg, #063d31 0%, #0f6e56 45%, #1d9e75 80%, #5dcaa5 100%);
+    padding: 52px 20px 36px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 240px; height: 240px;
+    background: rgba(255,255,255,0.06); border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -30px; left: -30px;
+    width: 160px; height: 160px;
+    background: rgba(255,255,255,0.04); border-radius: 50%;
+  }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; opacity: 0.7; margin-bottom: 8px; }
+  .hero-title { font-size: 32px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 4px; }
+  .hero-title span { opacity: 0.6; font-weight: 400; font-size: 22px; }
+  .hero-subtitle { font-size: 14px; opacity: 0.82; margin-bottom: 20px; line-height: 1.7; }
+  .hero-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .hero-chip { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 4px 12px; font-size: 12px; }
+
+  /* sections */
+  .section { padding: 0 16px; margin-top: 24px; }
+  .section-title { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 10px; padding-left: 2px; }
+
+  /* card base */
+  .card { background: #fff; border-radius: 14px; overflow: hidden; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+
+  /* transport cards */
+  .tc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tc { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .tc-head { padding: 12px 14px; color: #fff; }
+  .tc-head.green { background: linear-gradient(135deg, #085041, #1d9e75); }
+  .tc-head.coral { background: linear-gradient(135deg, #7a2e10, #d85a30); }
+  .tc-name { font-size: 13px; font-weight: 700; }
+  .tc-sub { font-size: 11px; opacity: 0.8; margin-top: 1px; }
+  .tc-body { padding: 10px 14px; }
+  .tc-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 12px; border-bottom: 1px solid #f0f0eb; gap: 6px; }
+  .tc-row:last-child { border-bottom: none; }
+  .tc-row .l { color: #888; flex-shrink: 0; }
+  .tc-row .r { font-weight: 500; text-align: right; }
+  .tc-note { margin: 8px 0 2px; font-size: 11px; border-radius: 7px; padding: 6px 9px; line-height: 1.6; }
+  .tc-note.green { background: #e1f5ee; color: #085041; }
+  .tc-note.coral { background: #faece7; color: #7a2e10; }
+
+  .meet-card { background: #fff; border-radius: 14px; padding: 14px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); font-size: 13px; line-height: 1.8; margin-top: 10px; }
+  .meet-card strong { color: #085041; }
+
+  /* day accordion */
+  .day-card { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.07); margin-bottom: 10px; }
+  .day-hd { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; user-select: none; }
+  .day-circle { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .day-info { flex: 1; }
+  .day-title { font-size: 15px; font-weight: 600; }
+  .day-meta { font-size: 12px; color: #888; margin-top: 1px; }
+  .day-arr { width: 24px; height: 24px; background: #f0f0eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #888; transition: transform .25s; flex-shrink: 0; }
+  .day-arr.open { transform: rotate(90deg); }
+  .day-body { display: none; border-top: 1px solid #f5f5f0; }
+  .day-body.open { display: block; }
+
+  /* events */
+  .ev { display: flex; gap: 12px; padding: 13px 16px; border-bottom: 1px solid #f5f5f0; }
+  .ev:last-of-type { border-bottom: none; }
+  .ev-left { display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0; padding-top: 3px; }
+  .ev-time { font-size: 10px; color: #aaa; text-align: center; line-height: 1.3; min-width: 40px; }
+  .ev-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .ev-body { flex: 1; min-width: 0; }
+  .ev-title { font-size: 14px; font-weight: 600; }
+  .ev-desc { font-size: 13px; color: #555; margin-top: 4px; line-height: 1.65; }
+  .ev-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 7px; }
+  .tag { font-size: 11px; border-radius: 5px; padding: 3px 8px; font-weight: 500; }
+  .tag-a { background: #faeeda; color: #7a4d00; }
+  .tag-g { background: #e1f5ee; color: #085041; }
+  .tag-p { background: #eeedfe; color: #3c3489; }
+  .tag-c { background: #faece7; color: #7a2e10; }
+
+  .day-footer { background: #f8f8f4; padding: 10px 16px; border-top: 1px solid #f0f0eb; }
+  .day-footer-row { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 12px; color: #888; }
+  .day-footer-total { font-size: 13px; font-weight: 600; color: #1a1a18; margin-top: 3px; }
+
+  /* transport guide */
+  .transport-guide { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .tg-item { display: flex; gap: 12px; padding: 13px 16px; border-bottom: 1px solid #f5f5f0; align-items: flex-start; }
+  .tg-item:last-child { border-bottom: none; }
+  .tg-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .tg-body { flex: 1; }
+  .tg-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .tg-desc { font-size: 12px; color: #666; line-height: 1.65; }
+  .tg-price { display: inline-block; margin-top: 5px; font-size: 11px; background: #faeeda; color: #7a4d00; border-radius: 5px; padding: 2px 8px; font-weight: 500; }
+
+  /* budget */
+  .budget-card { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .b-section { padding: 8px 16px 4px; font-size: 11px; font-weight: 600; color: #aaa; letter-spacing: 1px; text-transform: uppercase; background: #f8f8f4; border-top: 1px solid #f0f0eb; }
+  .b-row { display: flex; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid #f5f5f0; font-size: 13px; gap: 8px; }
+  .b-row:last-child { border-bottom: none; }
+  .b-label { color: #555; }
+  .b-row.total { background: #e1f5ee; }
+  .b-row.total .b-label { color: #085041; font-weight: 700; }
+  .b-row.total .b-val { color: #085041; font-weight: 700; font-size: 15px; }
+  .b-note { font-size: 12px; color: #999; padding: 10px 16px; background: #f8f8f4; border-top: 1px solid #f0f0eb; line-height: 1.6; }
+
+  /* hotel highlight */
+  .hotel-card { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .hotel-banner { background: linear-gradient(135deg, #063d31, #1d9e75); padding: 18px 16px; color: #fff; }
+  .hotel-name { font-size: 18px; font-weight: 700; }
+  .hotel-sub { font-size: 12px; opacity: 0.8; margin-top: 3px; }
+  .hotel-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .hotel-chip { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.25); border-radius: 5px; padding: 3px 9px; font-size: 11px; }
+  .hotel-body { padding: 14px 16px; }
+  .hotel-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid #f5f5f0; font-size: 13px; gap: 8px; }
+  .hotel-row:last-child { border-bottom: none; }
+  .hotel-row .hl { color: #888; }
+  .hotel-row .hr { font-weight: 500; text-align: right; }
+  .hotel-why { margin-top: 12px; background: #e1f5ee; border-radius: 9px; padding: 12px 14px; font-size: 13px; color: #063d31; line-height: 1.75; }
+
+  /* tips */
+  .tips-card { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .tip-item { display: flex; gap: 10px; padding: 12px 16px; border-bottom: 1px solid #f5f5f0; align-items: flex-start; }
+  .tip-item:last-child { border-bottom: none; }
+  .tip-num { width: 22px; height: 22px; border-radius: 50%; background: #faeeda; color: #7a4d00; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .tip-text { font-size: 13px; color: #444; line-height: 1.65; flex: 1; }
+  .tip-text strong { color: #1a1a18; }
+
+  /* food */
+  .food-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .food-card { background: #fff; border-radius: 14px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .food-name { font-size: 14px; font-weight: 600; margin-bottom: 5px; }
+  .food-desc { font-size: 12px; color: #666; line-height: 1.6; }
+  .food-shop { margin-top: 8px; font-size: 11px; color: #085041; background: #e1f5ee; border-radius: 5px; padding: 2px 7px; display: inline-block; }
+
+  /* footer */
+  .page-footer { text-align: center; padding: 32px 20px 40px; font-size: 12px; color: #bbb; }
+
+  /* scroll reveal: noop, keep simple for sharing */
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">清明假期 · 2026</div>
+  <div class="hero-title">阳朔 <span>四天三晚</span></div>
+  <div class="hero-subtitle">4月3日出发 → 4月6日返程<br>两人全程同行 · 以放松为主</div>
+  <div class="hero-chips">
+    <div class="hero-chip">广州直达 + 重庆中转</div>
+    <div class="hero-chip">4月3日晚阳朔汇合</div>
+    <div class="hero-chip">昔时今舍 3晚</div>
+    <div class="hero-chip">遇龙河为核心</div>
+    <div class="hero-chip">不赶场不打卡</div>
+  </div>
+</div>
+
+<!-- TRANSPORT -->
+<div class="section">
+  <div class="section-title">出发交通 · 4月3日（周四）</div>
+  <div class="tc-grid">
+    <div class="tc">
+      <div class="tc-head green">
+        <div class="tc-name">从广州出发</div>
+        <div class="tc-sub">贵广高铁直达</div>
+      </div>
+      <div class="tc-body">
+        <div class="tc-row"><span class="l">出发</span><span class="r">广州南站</span></div>
+        <div class="tc-row"><span class="l">到达</span><span class="r">阳朔站</span></div>
+        <div class="tc-row"><span class="l">用时</span><span class="r">约 2.5 小时</span></div>
+        <div class="tc-row"><span class="l">发车</span><span class="r">21:00 前后</span></div>
+        <div class="tc-row"><span class="l">票价</span><span class="r">¥120 起</span></div>
+        <div class="tc-note green">无需转车，全程最轻松</div>
+      </div>
+    </div>
+    <div class="tc">
+      <div class="tc-head coral">
+        <div class="tc-name">从重庆出发</div>
+        <div class="tc-sub">经贵阳北中转</div>
+      </div>
+      <div class="tc-body">
+        <div class="tc-row"><span class="l">出发</span><span class="r">重庆西站</span></div>
+        <div class="tc-row"><span class="l">中转</span><span class="r">贵阳北</span></div>
+        <div class="tc-row"><span class="l">到达</span><span class="r">阳朔站</span></div>
+        <div class="tc-row"><span class="l">用时</span><span class="r">约 4.5–5 小时</span></div>
+        <div class="tc-row"><span class="l">发车</span><span class="r">17:30–18:30</span></div>
+        <div class="tc-row"><span class="l">票价</span><span class="r">¥280–320</span></div>
+        <div class="tc-note coral">贵阳北留足40分钟换乘</div>
+      </div>
+    </div>
+  </div>
+  <div class="meet-card">
+    <strong>汇合方式：</strong>两人约好4月3日深夜在昔时今舍前台汇合。广州那位约23:30先到，先入住等候；重庆那位抵达时间相近。到了酒店当晚不安排任何事，洗漱睡觉。
+  </div>
+</div>
+
+<!-- HOTEL -->
+<div class="section">
+  <div class="section-title">住宿推荐</div>
+  <div class="hotel-card">
+    <div class="hotel-banner">
+      <div class="hotel-name">昔时今舍</div>
+      <div class="hotel-sub">十里画廊核心景区 · 遇龙河岸青龙桥头</div>
+      <div class="hotel-chips">
+        <div class="hotel-chip">2026中国50精品民宿</div>
+        <div class="hotel-chip">携程 4.9 / 1135条</div>
+        <div class="hotel-chip">侘寂美学</div>
+        <div class="hotel-chip">景观无边泳池</div>
+      </div>
+    </div>
+    <div class="hotel-body">
+      <div class="hotel-row"><span class="hl">价格参考</span><span class="hr">¥800–1,500 / 晚</span></div>
+      <div class="hotel-row"><span class="hl">推荐房型</span><span class="hr">江景落地窗大床房</span></div>
+      <div class="hotel-row"><span class="hl">入住晚数</span><span class="hr">3晚（4月3–5日）</span></div>
+      <div class="hotel-row"><span class="hl">预订平台</span><span class="hr">携程 / 飞猪 / 官方微信</span></div>
+      <div class="hotel-why">推开窗就是遇龙河，竹筏每天从窗前划过。步行200米到竹筏出发点。无边泳池面向山水田园，是酒店最值钱的视角。自制桂林米粉是镇店之宝，住客评为阳朔最好吃之一。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ITINERARY -->
+<div class="section">
+  <div class="section-title">三天行程（点击展开）</div>
+
+  <!-- D1 -->
+  <div class="day-card">
+    <div class="day-hd" onclick="tog('d1')">
+      <div class="day-circle" style="background:#1d9e75;">D1</div>
+      <div class="day-info">
+        <div class="day-title">4月4日 · 清明 · 到了就发呆</div>
+        <div class="day-meta">上午泡池 · 下午竹筏 · 傍晚落日</div>
+      </div>
+      <div class="day-arr" id="a-d1">›</div>
+    </div>
+    <div class="day-body" id="b-d1">
+      <div class="ev">
+        <div class="ev-left"><div class="ev-time">08:00</div><div class="ev-dot" style="background:#1d9e75;"></div></div>
+        <div class="ev-body">
+          <div class="ev-title">睡到自然醒 · 酒店早餐</div>
+          <div class="ev-desc">昔时今舍自制桂林米粉，秘制卤汁，住客评为阳朔最好吃之一。慢慢吃，推开窗就是遇龙河，看竹筏飘过。今天没有必须完成的事。</div>
+          <div class="ev-tags"><span class="tag tag-a">含于房费 / 单点约 ¥60（两人）</span></div>
+        </div>
+      </div>
+      <div class="ev">
+        <div class="ev-left"><div class="ev-time">10:00</div><div class="ev-dot" style="background:#1d9e75;"></div></div>
+        <div class="ev-body">
+          <div class="ev-title">酒店无边泳池 · 彻底发呆</div>
+          <div class="ev-desc">4月水温18–24°C，下水刚好。面对遇龙河和远山，什么都不做。山、河、竹林、蓝天全在眼前，两人坐着聊天或各自看书。</div>
+        </div>
+      </div>
+      <div class="ev">
+        <div class="ev-left"><div class="ev-time">13:00</div><div class="ev-dot" style="background:#1d9e75;"></div></div>
+        <div class="ev-body">
+          <div class="ev-title">午饭 · 河边农家小馆</div>
+          <div class="ev-desc">问前台推荐步行5分钟内的农家馆。田螺酿、腊肉小炒、漓江清水鱼，配米饭，游客极少。</div>
+          <div class="ev-tags"><span class="tag tag-a">两人约 ¥80–120</span></div>
+        </div>
+      </div>
+      <div class="ev">
+        <div class="ev-left"><div class="ev-time">14:30</div><div class="ev-dot" style="background:#1d9e75;"></div></div>
+        <div class="ev-body">
+          <div class="ev-title">遇龙河竹筏漂流</div>
+          <div class="ev-desc">步行200米到出发点。两人一筏，顺水漂行约2–2.5小时。下午光线最美，山峰轮廓清晰，水面反光。可随时让筏工停，下水踩踩，清澈见底。不要看手机。</div>
+          <div class="ev-tags">
+            <span class="tag tag-a">两人约 ¥250</span>
+            <span class="tag tag-g">下午3点前出发最佳</span>
+          </div>
+        </div>
+      </div>
+      <div class="ev">
+        <div class="ev-left"><div class="ev-time">17:30</div><div class="ev-dot" style="background:#1d9e75;"></div></div>
+        <div class="ev-body">
+          <div class="ev-title">上岸 · 河滩看日落</div>
+          <div class="ev-desc">上岸后不急着走，在码头旁的河滩坐一坐，看夕阳把山头染成橙色。4月天黑约19:00，坐到暮色再起身。</div>
+        </div>
+      </div>
+      <div class="ev">
+        <div class="ev-left"><div class="ev-time">19:00</div><div class="ev-dot" style="background:#1d9e75;"></div></div>
+        <div class="ev-body">
+          <div class="ev-title">晚饭 · 生态苑农庄</div>
+          <div class="ev-desc">大榕树景区旁，开了十多年的老农家菜馆，游客少口碑好。推荐黄焖土鸡、漓江清水鱼、炒菜心。吃完回酒店早睡。</div>
+          <div class="ev-tags"><span class="tag tag-a">两人约 ¥160–200</span></div>
+        </div>
+      </div>
+      <div class="day-footer">
+        <div class="day-footer-row">
+          <span>竹筏 ¥250</span>
+          <span>餐饮约 ¥240–320</span>
+        </div>
+        <div class="day-footer-total">D1 合计约 ¥490–570</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D2 -->
+  <div class="day-card">
+    <div class="day-hd" onclick="tog('d2')">
+      <div class="day-circle" style="background:#d85a30;">D2</div>
+      <div class="day-info">
+        <div class="day-title">4月5日 · 晨雾骑行 · 午休 · 西街夜游</div>
+        <div class="day-meta">十里画廊 · 午觉 · 啤酒鱼</div>
+      </div>
+      <div class="day-arr" id="a-d2">›</div>
+    </div>
+    <div class="day-body" id="b-d2">
+      <div class="ev">
+        <div class="ev-left"><div class="ev-time">06:30</div><div class="ev-dot" style="background:#d85a30;"></div></div>
+        <div class="ev-body">
+          <div class="ev-title">清晨河边散步 · 晨雾时段</div>
+          <div class="ev-desc">清明前后早晨雾气最浓。从酒店走到河边20–30分钟，雾绕山峰、水面如镜。全程最容易拍到好照片的时段。</div>
+        </div>
+      </div>
+      <div class="ev">
+        <div class="ev-left"><div class="ev-time">08:00</div><div class="ev-dot" style="background:#d85a30;"></div></div>
+        <div class="ev-body">
+          <div class="ev-title">早餐 · 酒店米粉</div>
+          <div class="ev-desc">今天有点行程，吃完准备出门骑车。</div>
+        </div>
+      </div>
+      <div class="ev">
+        <div class="ev-left"><div class="ev-time">09:00</div><div class="ev-dot" style="background:#d85a30;"></div></div>
+        <div class="ev-body">
+          <div class="ev-title">骑行十里画廊</div>
+          <div class="ev-desc">在酒店附近租自行车，沿遇龙河骑行田间小路约10公里。路况平缓，穿越竹林、稻田、古村，两侧喀斯特山峰拔地而起。没有景区、没有门票，想停就停。悠闲骑约2–2.5小时不累。月亮山就在这条路上，天然月洞顺路看一眼。</div>
+          <div class="ev-tags">
+            <span class="tag tag-a">租车两辆约 ¥60–100</span>
+            <span class="tag tag-p">月亮山 ¥96（可选）</span>
+          </div>
+        </div>
+      </div>
+      <div class="ev">
+        <div class="ev-left"><div class="ev-time">12:00</div><div class="ev-dot" style="background:#d85a30;"></div></div>
+        <div class="ev-body">
+          <div class="ev-title">午饭 · 旧县村农家菜</div>
+          <div class="ev-desc">骑到旧县村，在古村里的小馆子吃饭。招牌是柴火鸡和漓江虾，本地人多游客少。在古树旁慢慢吃，配一瓶漓江啤酒，性价比最高的一餐。</div>
+          <div class="ev-tags"><span class="tag tag-a">两人约 ¥100–150</span></div>
+        </div>
+      </div>
+      <div class="ev">
+        <div class="ev-left"><div class="ev-time">13:30</div><div class="ev-dot" style="background:#d85a30;"></div></div>
+        <div class="ev-body">
+          <div class="ev-title">回酒店 · 午休</div>
+          <div class="ev-desc">骑车或打车回酒店，睡午觉。这是行程里最重要的一段——不睡下午西街会觉得累。睡了之后西街才是享受。</div>
+        </div>
+      </div>
+      <div class="ev">
+        <div class="ev-left"><div class="ev-time">16:30</div><div class="ev-dot" style="background:#d85a30;"></div></div>
+        <div class="ev-body">
+          <div class="ev-title">前往阳朔西街</div>
+          <div class="ev-desc">打滴滴或酒店叫车进县城，约15–20分钟。下午4点多游客未到最拥挤时，先随意逛——西街不大，慢慢走一遍40分钟。逛猫的天空之城书店，喝杯咖啡。</div>
+          <div class="ev-tags"><span class="tag tag-a">打车单程约 ¥30–40</span></div>
+        </div>
+      </div>
+      <div class="ev">
+        <div class="ev-left"><div class="ev-time">18:30</div><div class="ev-dot" style="background:#d85a30;"></div></div>
+        <div class="ev-body">
+          <div class="ev-title">晚饭 · 刘姐地道啤酒鱼</div>
+          <div class="ev-desc">西街中心，扎根近20年老店，提前电话订位。点剑骨鱼，桌上现做，秘制酱料配桂林米粉做底，有驻场歌手。吃完在西街口宵夜摊溜达买份田螺，再打车回酒店。</div>
+          <div class="ev-tags"><span class="tag tag-a">两人约 ¥140–180</span></div>
+        </div>
+      </div>
+      <div class="day-footer">
+        <div class="day-footer-row">
+          <span>骑车 ¥60–100</span>
+          <span>餐饮约 ¥240–330</span>
+          <span>交通约 ¥60–80</span>
+        </div>
+        <div class="day-footer-total">D2 合计约 ¥360–510</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D3 -->
+  <div class="day-card">
+    <div class="day-hd" onclick="tog('d3')">
+      <div class="day-circle" style="background:#534ab7;">D3</div>
+      <div class="day-info">
+        <div class="day-title">4月6日 · 慢慢告别</div>
+        <div class="day-meta">晨雾 · 老街米粉 · 下午各自返程</div>
+      </div>
+      <div class="day-arr" id="a-d3">›</div>
+    </div>
+    <div class="day-body" id="b-d3">
+      <div class="ev">
+        <div class="ev-left"><div class="ev-time">06:30</div><div class="ev-dot" style="background:#534ab7;"></div></div>
+        <div class="ev-body">
+          <div class="ev-title">最后一次清晨河边</div>
+          <div class="ev-desc">早起去河边走走，雾气极浓，山峰半隐半现。不需要走远，也不需要拍照，把这个画面留在记忆里。</div>
+        </div>
+      </div>
+      <div class="ev">
+        <div class="ev-left"><div class="ev-time">08:00</div><div class="ev-dot" style="background:#534ab7;"></div></div>
+        <div class="ev-body">
+          <div class="ev-title">最后一碗米粉 · 退房</div>
+          <div class="ev-desc">吃完收拾行李退房，寄存在前台，上午还有时间。</div>
+        </div>
+      </div>
+      <div class="ev">
+        <div class="ev-left"><div class="ev-time">09:00</div><div class="ev-dot" style="background:#534ab7;"></div></div>
+        <div class="ev-body">
+          <div class="ev-title">阳朔老街 · 随便逛</div>
+          <div class="ev-desc">去书画街，当地画师现场作画，山水小品¥20–50一张，手绘明信片¥10，轻巧好带。或去「可可米粉」「瘦子米粉」——本地人排队吃的早餐粉，再吃一碗干捞粉¥15，对阳朔最后的告别。</div>
+          <div class="ev-tags"><span class="tag tag-a">米粉约 ¥30 · 纪念品 ¥50–200</span></div>
+        </div>
+      </div>
+      <div class="ev">
+        <div class="ev-left"><div class="ev-time">12:00</div><div class="ev-dot" style="background:#534ab7;"></div></div>
+        <div class="ev-body">
+          <div class="ev-title">取行李 · 前往高铁站</div>
+          <div class="ev-desc">坐中巴（¥20/人）或打车前往阳朔高铁站，约1小时。在站台告别，各自回程。</div>
+        </div>
+      </div>
+      <div class="ev">
+        <div class="ev-left"><div class="ev-time">13:30+</div><div class="ev-dot" style="background:#534ab7;"></div></div>
+        <div class="ev-body">
+          <div class="ev-title">返程高铁</div>
+          <div class="ev-desc">广州方向班次充足，最晚约20:36；重庆方向建议选15:00前出发，贵阳北中转更从容。</div>
+          <div class="ev-tags">
+            <span class="tag tag-g">广州返程约 ¥120</span>
+            <span class="tag tag-c">重庆返程约 ¥280–320</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-footer">
+        <div class="day-footer-row">
+          <span>餐饮约 ¥50–80</span>
+          <span>纪念品 ¥50–200</span>
+          <span>中巴 ¥40</span>
+        </div>
+        <div class="day-footer-total">D3 合计（不含返程票）约 ¥140–320</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRANSPORT GUIDE -->
+<div class="section">
+  <div class="section-title">交通指南 · 不需要租车</div>
+  <div class="transport-guide card">
+    <div class="tg-item">
+      <div class="tg-icon" style="background:#e1f5ee;">🚌</div>
+      <div class="tg-body">
+        <div class="tg-title">高铁站 → 酒店（4月3日深夜）</div>
+        <div class="tg-desc">强烈建议提前微信联系昔时今舍安排接站。凌晨中巴末班已过，酒店接送或滴滴最省心，门到门不用等。</div>
+        <div class="tg-price">酒店接站约 ¥100–150 · 滴滴约 ¥100</div>
+      </div>
+    </div>
+    <div class="tg-item">
+      <div class="tg-icon" style="background:#e1f5ee;">🛶</div>
+      <div class="tg-body">
+        <div class="tg-title">D1 竹筏全程</div>
+        <div class="tg-desc">酒店步行200米即到竹筏出发点。全天活动范围在酒店周边1公里内，零交通需求。</div>
+        <div class="tg-price">无需任何交通费</div>
+      </div>
+    </div>
+    <div class="tg-item">
+      <div class="tg-icon" style="background:#faeeda;">🚲</div>
+      <div class="tg-body">
+        <div class="tg-title">D2 骑行十里画廊</div>
+        <div class="tg-desc">酒店附近租自行车即可，路况平缓，约10公里单程。午饭后骑车或打车回酒店（约¥30–40）。</div>
+        <div class="tg-price">租车两辆约 ¥60–100 / 半天</div>
+      </div>
+    </div>
+    <div class="tg-item">
+      <div class="tg-icon" style="background:#faeeda;">🚗</div>
+      <div class="tg-body">
+        <div class="tg-title">D2 傍晚去西街</div>
+        <div class="tg-desc">打滴滴或出租车，约15–20分钟。吃完饭再打车回酒店。不需要包全天车。</div>
+        <div class="tg-price">单程约 ¥30–40 · 来回约 ¥60–80</div>
+      </div>
+    </div>
+    <div class="tg-item">
+      <div class="tg-icon" style="background:#e1f5ee;">🚌</div>
+      <div class="tg-body">
+        <div class="tg-title">D3 返程去高铁站</div>
+        <div class="tg-desc">中巴专线¥20/人从县城出发，约1小时。行李多可直接打滴滴，门到门约¥100。</div>
+        <div class="tg-price">中巴 ¥20/人 · 滴滴约 ¥100</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOD -->
+<div class="section">
+  <div class="section-title">必吃清单</div>
+  <div class="food-grid">
+    <div class="food-card">
+      <div class="food-name">桂林米粉</div>
+      <div class="food-desc">秘制卤汁，加卤蛋、锅烧、酸豆角。每天早餐必吃。</div>
+      <div class="food-shop">昔时今舍自制 / 可可米粉</div>
+    </div>
+    <div class="food-card">
+      <div class="food-name">啤酒鱼</div>
+      <div class="food-desc">漓江鲤鱼带鳞下锅，茶油+啤酒焖煮，外酥里嫩。阳朔第一名菜。</div>
+      <div class="food-shop">刘姐地道啤酒鱼（西街）</div>
+    </div>
+    <div class="food-card">
+      <div class="food-name">黄焖土鸡</div>
+      <div class="food-desc">农家散养，肉紧实有鸡味。配米饭一绝。</div>
+      <div class="food-shop">生态苑农庄（大榕树旁）</div>
+    </div>
+    <div class="food-card">
+      <div class="food-name">田螺酿</div>
+      <div class="food-desc">广西特色，肉馅填入田螺炒制，辣香下酒。</div>
+      <div class="food-shop">河边农家小馆</div>
+    </div>
+  </div>
+</div>
+
+<!-- BUDGET -->
+<div class="section">
+  <div class="section-title">两人全程费用（非人均）</div>
+  <div class="budget-card">
+    <div class="b-section">交通</div>
+    <div class="b-row"><span class="b-label">广州往返高铁（二等）</span><span class="b-val">¥240–260</span></div>
+    <div class="b-row"><span class="b-label">重庆往返高铁（二等）</span><span class="b-val">¥560–680</span></div>
+    <div class="b-row"><span class="b-label">本地交通（中巴/打车/租车）</span><span class="b-val">¥220–280</span></div>
+    <div class="b-section">住宿</div>
+    <div class="b-row"><span class="b-label">昔时今舍 3晚（清明节价格）</span><span class="b-val">¥2,400–4,500</span></div>
+    <div class="b-section">景区 & 活动</div>
+    <div class="b-row"><span class="b-label">遇龙河竹筏（双人）</span><span class="b-val">¥250</span></div>
+    <div class="b-row"><span class="b-label">月亮山（可选）</span><span class="b-val">¥96</span></div>
+    <div class="b-section">餐饮</div>
+    <div class="b-row"><span class="b-label">早餐 3天</span><span class="b-val">¥100–150</span></div>
+    <div class="b-row"><span class="b-label">午饭 2次（农家菜）</span><span class="b-val">¥180–270</span></div>
+    <div class="b-row"><span class="b-label">晚饭 2次</span><span class="b-val">¥300–380</span></div>
+    <div class="b-section">其他</div>
+    <div class="b-row"><span class="b-label">纪念品 / 咖啡 / 零食</span><span class="b-val">¥100–300</span></div>
+    <div class="b-row total"><span class="b-label">两人全程合计</span><span class="b-val">¥4,500–7,200</span></div>
+    <div class="b-note">住宿是最大变量。选¥800/晚偏低，选¥1,500/晚在高端区间。建议先查清明节实际报价后再做总预算。</div>
+  </div>
+</div>
+
+<!-- TIPS -->
+<div class="section">
+  <div class="section-title">出发前必做的事</div>
+  <div class="tips-card">
+    <div class="tip-item">
+      <div class="tip-num">1</div>
+      <div class="tip-text"><strong>今天就订昔时今舍</strong>——清明假期精品民宿最紧俏，4.9分1000+条评价，清明节房间极有限，今天下单还来得及。</div>
+    </div>
+    <div class="tip-item">
+      <div class="tip-num">2</div>
+      <div class="tip-text"><strong>12306买高铁票</strong>——4月3日晚出发 + 4月6日下午返程，清明节一票难求。你买广州南→阳朔；朋友买重庆西→贵阳北 + 贵阳北→阳朔两段，留足换乘时间。</div>
+    </div>
+    <div class="tip-item">
+      <div class="tip-num">3</div>
+      <div class="tip-text"><strong>提前联系酒店安排接站</strong>——4月3日深夜到阳朔站，中巴末班已过，提前微信联系昔时今舍安排接送最省心。</div>
+    </div>
+    <div class="tip-item">
+      <div class="tip-num">4</div>
+      <div class="tip-text"><strong>带薄防水外套</strong>——清明多雨，一件轻薄防水外套够用，雨中的遇龙河别有韵味。</div>
+    </div>
+    <div class="tip-item">
+      <div class="tip-num">5</div>
+      <div class="tip-text"><strong>认真防晒</strong>——竹筏上两三小时日照强，带防晒霜和帽子，不然回程的脸会给你惊喜。</div>
+    </div>
+    <div class="tip-item">
+      <div class="tip-num">6</div>
+      <div class="tip-text"><strong>备少量现金</strong>——农家菜馆和竹筏有时只收现金，备¥200–300或确保微信支付畅通。</div>
+    </div>
+  </div>
+</div>
+
+<div class="page-footer">
+  阳朔 · 清明 2026<br>山水之间，慢慢来
+</div>
+
+<script>
+function tog(id) {
+  const b = document.getElementById('b-' + id);
+  const a = document.getElementById('a-' + id);
+  const open = b.classList.contains('open');
+  b.classList.toggle('open', !open);
+  b.style.display = open ? 'none' : 'block';
+  a.classList.toggle('open', !open);
+  a.textContent = open ? '›' : '›';
+}
+</script>
+</body>
+</html>
